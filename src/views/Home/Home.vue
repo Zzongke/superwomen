@@ -1,12 +1,20 @@
 <template>
 	<div id="home" class="wrappers">
 		<nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+		<tab-control :titles="['流行','新歌','精选']" 
+						@tabClick="tabClick" 
+						ref="tabControl" 
+						class="tab-control"
+						v-show="isFixed"></tab-control>
+
 		
 		<scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load="true" @pullingUp="loadMored">
-			<home-swiper :banners="banners"></home-swiper>
+			<home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"></home-swiper>
 			<recommend-view :recommends="recommends"></recommend-view>
 			<feature-view></feature-view>
-			<tab-control class="tab-control" :titles="['流行','新歌','精选']" @tabClick="tabClick"></tab-control>
+			<tab-control :titles="['流行','新歌','精选']" 
+						@tabClick="tabClick" 
+						ref="tabControl" ></tab-control>
 			<goods-list :goods="showGoods"></goods-list>
 			<!-- <h2>{{banners}}</h2> -->	
 			<ul>
@@ -154,7 +162,9 @@
 					'sell':{page:0,list:[]}
 				},
 				currentType:'pop',
-				isShowBackTop:false
+				isShowBackTop:false,
+				tabOffsetTop:0,
+				isFixed:false
 			}
 		},
 		computed:{
@@ -164,6 +174,8 @@
 		},
 		mounted(){
 			// this.$refs.aaaa
+			//获取tabControl的offsetTop
+			// this.tabOffsetTop = this.$refs.tabControl.offsetTop
 		},
 		created() {
 			//1.请求多个数据
@@ -193,9 +205,13 @@
 			},
 			contentScroll(position){
 				this.isShowBackTop = (-position.y) > 1000
+				this.isFixed = (-position.y) > this.tabOffsetTop
 			},
 			loadMored(){
 				this.getHomeGoods(this.currentType)
+			},
+			swiperImageLoad(){
+				this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
 			},
 			
 			// 网络请求
@@ -233,7 +249,7 @@
 		z-index: 9;
 	}
 	.tab-control{
-		position: sticky;
+		/* position: sticky; */
 		top: 44px;
 		z-index: 9;
 	}
@@ -244,6 +260,10 @@
 		bottom: 49px;
 		left: 0;
 		right: 0;
+	}
+	.tab-control{
+		position: relative;
+		z-index: 9;
 	}
 	/* .content{
 		height: calc(100vh-93px);
