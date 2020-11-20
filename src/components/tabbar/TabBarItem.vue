@@ -39,15 +39,19 @@
 			}
 		},
 		computed:{
+			// isActive(){
+			// 	if(this.$route.path == this.path){
+			// 		return this.$route.path == this.path;
+			// 	}
+			// }
 			isActive(){
-				if(this.$route.path == this.path){
-					return this.$route.path == this.path;
-				}
+				return this.$route.path == this.path
 			}
 		},
 		methods:{
 			itemClick(){
-				this.$router.replace(this.path).catch(err => {})
+				// this.$router.replace(this.path).catch(err  => {})
+				this.$router.replace(this.path)
 			}
 		}
 	}

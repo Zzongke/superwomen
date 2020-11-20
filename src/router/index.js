@@ -5,6 +5,9 @@ const Home = () => import('../views/Home/Home.vue')
 const Cart = () => import('../views/Cart/Cart.vue')
 const CateGory = () => import('../views/CateGory/CateGory.vue')
 const ProFile = () => import('../views/ProFile/ProFile.vue')
+const Detail = () => import('../views/detail/Detail.vue')
+const Error = () => import('../views/error/Error.vue')
+
 
 Vue.use(Router)
 
@@ -47,6 +50,14 @@ const routes = [
 	{
 		path:'/profile',
 		component: ProFile
+	},
+	{
+		path:'/detail/:iid',
+		component: Detail
+	},
+	{
+		path:'/error',
+		component:Error
 	}
 ]
 

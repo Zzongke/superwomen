@@ -3,7 +3,7 @@
 		<nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
 		<tab-control :titles="['流行','新歌','精选']" 
 						@tabClick="tabClick" 
-						ref="tabControl" 
+						ref="tabControl1" 
 						class="tab-control"
 						v-show="isFixed"></tab-control>
 
@@ -14,11 +14,11 @@
 			<feature-view></feature-view>
 			<tab-control :titles="['流行','新歌','精选']" 
 						@tabClick="tabClick" 
-						ref="tabControl" ></tab-control>
+						ref="tabControl2" ></tab-control>
 			<goods-list :goods="showGoods"></goods-list>
 			<!-- <h2>{{banners}}</h2> -->	
 			<ul>
-				<li>列表1</li>
+				<li @click="itemClick">列表1</li>
 				<li>列表2</li>
 				<li>列表3</li>
 				<li>列表4</li>
@@ -164,7 +164,8 @@
 				currentType:'pop',
 				isShowBackTop:false,
 				tabOffsetTop:0,
-				isFixed:false
+				isFixed:false,
+				saveY:0
 			}
 		},
 		computed:{
@@ -176,6 +177,17 @@
 			// this.$refs.aaaa
 			//获取tabControl的offsetTop
 			// this.tabOffsetTop = this.$refs.tabControl.offsetTop
+		},
+		destroyed(){
+			console.log('home destroyed')
+		},
+		activated(){
+			this.$refs.scroll.scrollTo(0,this.saveY,0)
+			this.$refs.scroll.refresh()
+		},
+		deactivated(){
+			this.saveY = this.$refs.scroll.getScrollY()
+			console.log(this.saveY)
 		},
 		created() {
 			//1.请求多个数据
@@ -199,6 +211,8 @@
 					this.currentType = 'sell';
 					break
 				}
+				this.$refs.tabControl1.currentIndex = index;
+				this.$refs.tabControl2.currentIndex = index;
 			},
 			backClick(){
 				this.$refs.scroll.scrollTo(0,0);
@@ -211,7 +225,7 @@
 				this.getHomeGoods(this.currentType)
 			},
 			swiperImageLoad(){
-				this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
+				this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
 			},
 			
 			// 网络请求
@@ -230,6 +244,9 @@
 					this.goods[type].page +=1
 					this.$refs.scroll.finshPullUp()
 				})
+			},
+			itemClick(){
+				this.$router.push('/detail/' + 111)
 			}
 		}
 	}
