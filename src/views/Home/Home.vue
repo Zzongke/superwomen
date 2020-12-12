@@ -246,7 +246,11 @@
 				})
 			},
 			itemClick(){
+<<<<<<< HEAD
 				this.$router.push('/detail/' + 111)
+=======
+				this.$router.push('/detail/' + 11)
+>>>>>>> 3490f8f (项目第四次提交)
 			}
 		}
 	}
