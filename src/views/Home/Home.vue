@@ -246,7 +246,11 @@
 				})
 			},
 			itemClick(){
+<<<<<<< HEAD
 				this.$router.push('/detail/' + 11)
+=======
+				this.$router.push('/detail/' + 111)
+>>>>>>> 2935663d4166a1bbe3724871ca994299d6171dc3
 			}
 		}
 	}
